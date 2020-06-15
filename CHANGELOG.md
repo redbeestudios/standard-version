@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.1.0](https://github.com/conventional-changelog/standard-version/compare/v8.0.0...v8.1.0) (2020-06-15)
+
+
+### Features
+
+* adding posibility to set tag suffix ([94a5996](https://github.com/conventional-changelog/standard-version/commit/94a59962176a584c2f87c2d1f8159098bec6e6f1))
+
 ## [8.0.0](https://www.github.com/conventional-changelog/standard-version/compare/v7.1.0...v8.0.0) (2020-05-06)
 
 
