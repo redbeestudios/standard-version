@@ -7,6 +7,7 @@ const path = require('path')
 const printError = require('./lib/print-error')
 const tag = require('./lib/lifecycles/tag')
 const { resolveUpdaterObjectFromArgument } = require('./lib/updaters')
+const dateSuffix = require('./lib/date-suffix')
 
 module.exports = function standardVersion (argv) {
   const defaults = require('./defaults')
@@ -52,6 +53,7 @@ module.exports = function standardVersion (argv) {
     } catch (err) {}
   })
   let newVersion
+  let tagSuffix
   return Promise.resolve()
     .then(() => {
       if (!pkg && args.gitTagFallback) {
@@ -63,6 +65,7 @@ module.exports = function standardVersion (argv) {
       }
     })
     .then(version => {
+      tagSuffix = (args.tagSuffix && ('-' + (args.tagSuffix === 'dateTime' ? dateSuffix() : args.tagSuffix))) || ''
       newVersion = version
     })
     .then(() => {
@@ -72,13 +75,13 @@ module.exports = function standardVersion (argv) {
       // if bump runs, it calculaes the new version that we
       // should release at.
       if (_newVersion) newVersion = _newVersion
-      return changelog(args, newVersion)
+      return changelog(args, newVersion + tagSuffix)
     })
     .then(() => {
-      return commit(args, newVersion)
+      return commit(args, newVersion + tagSuffix)
     })
     .then(() => {
-      return tag(newVersion, pkg ? pkg.private : false, args)
+      return tag(newVersion + tagSuffix, pkg ? pkg.private : false, args)
     })
     .catch((err) => {
       printError(args, err.message)
