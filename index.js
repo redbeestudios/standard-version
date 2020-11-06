@@ -7,9 +7,8 @@ const path = require('path')
 const printError = require('./lib/print-error')
 const tag = require('./lib/lifecycles/tag')
 const { resolveUpdaterObjectFromArgument } = require('./lib/updaters')
-const dateSuffix = require('./lib/date-suffix')
 
-module.exports = function standardVersion (argv) {
+module.exports = async function standardVersion (argv) {
   const defaults = require('./defaults')
   /**
    * `--message` (`-m`) support will be removed in the next major version.
@@ -40,8 +39,7 @@ module.exports = function standardVersion (argv) {
 
   const args = Object.assign({}, defaults, argv)
   let pkg
-  args.packageFiles.forEach((packageFile) => {
-    if (pkg) return
+  for (const packageFile of args.packageFiles) {
     const updater = resolveUpdaterObjectFromArgument(packageFile)
     const pkgPath = path.resolve(process.cwd(), updater.filename)
     try {
@@ -50,41 +48,25 @@ module.exports = function standardVersion (argv) {
         version: updater.updater.readVersion(contents),
         private: typeof updater.updater.isPrivate === 'function' ? updater.updater.isPrivate(contents) : false
       }
+      break
     } catch (err) {}
-  })
-  let newVersion
-  let tagSuffix
-  return Promise.resolve()
-    .then(() => {
-      if (!pkg && args.gitTagFallback) {
-        return latestSemverTag()
-      } else if (!pkg) {
-        throw new Error('no package file found')
-      } else {
-        return pkg.version
-      }
-    })
-    .then(version => {
-      tagSuffix = (args.tagSuffix && ('-' + (args.tagSuffix === 'dateTime' ? dateSuffix() : args.tagSuffix))) || ''
-      newVersion = version
-    })
-    .then(() => {
-      return bump(args, newVersion)
-    })
-    .then((_newVersion) => {
-      // if bump runs, it calculaes the new version that we
-      // should release at.
-      if (_newVersion) newVersion = _newVersion
-      return changelog(args, newVersion + tagSuffix)
-    })
-    .then(() => {
-      return commit(args, newVersion + tagSuffix)
-    })
-    .then(() => {
-      return tag(newVersion + tagSuffix, pkg ? pkg.private : false, args)
-    })
-    .catch((err) => {
-      printError(args, err.message)
-      throw err
-    })
+  }
+  try {
+    let version
+    if (pkg) {
+      version = pkg.version
+    } else if (args.gitTagFallback) {
+      version = await latestSemverTag()
+    } else {
+      throw new Error('no package file found')
+    }
+
+    const newVersion = `${await bump(args, version)}${args.tagSuffix}`
+    await changelog(args, newVersion)
+    await commit(args, newVersion)
+    await tag(newVersion, pkg ? pkg.private : false, args)
+  } catch (err) {
+    printError(args, err.message)
+    throw err
+  }
 }
