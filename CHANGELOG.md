@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.1.1](https://github.com/conventional-changelog/standard-version/compare/v9.1.0...v9.1.1) (2020-11-07)
+
+
+### Bug Fixes
+
+* removing unused file ([e22bec4](https://github.com/conventional-changelog/standard-version/commit/e22bec4eb0c794a16e5f6e525cc1ba291e096bad))
+
 ## [9.1.0](https://github.com/conventional-changelog/standard-version/compare/v9.0.0...v9.1.0) (2020-11-07)
 
 
