@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.1.0](https://github.com/conventional-changelog/standard-version/compare/v9.0.0...v9.1.0) (2020-11-07)
+
+
+### Features
+
+* removing dateTime tag suffix ([77d660e](https://github.com/conventional-changelog/standard-version/commit/77d660eee83471a7fd2055a15f77deea41c377f3))
+* support custom updater as object as well as path ([#630](https://github.com/conventional-changelog/standard-version/issues/630)) ([55bbde8](https://github.com/conventional-changelog/standard-version/commit/55bbde8476013de7a2f24bf29c7c12cb07f96e3f))
+
+
+### Bug Fixes
+
+* **deps:** update dependency find-up to v5 ([#651](https://github.com/conventional-changelog/standard-version/issues/651)) ([df8db83](https://github.com/conventional-changelog/standard-version/commit/df8db832327a751d5c62fe361b6ac2d2b5f66bf6))
+
+## [8.1.0](https://github.com/conventional-changelog/standard-version/compare/v8.0.0...v8.1.0) (2020-06-15)
+
+
+### Features
+
+* adding posibility to set tag suffix ([94a5996](https://github.com/conventional-changelog/standard-version/commit/94a59962176a584c2f87c2d1f8159098bec6e6f1))
+
 ## [9.0.0](https://www.github.com/conventional-changelog/standard-version/compare/v8.0.2...v9.0.0) (2020-08-15)
 
 
